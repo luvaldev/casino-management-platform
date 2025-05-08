@@ -29,6 +29,7 @@ src/
 ```
 
 **Descripción del Proyecto:** Estructura creada en base a la plantilla de Handlebars, con un diseño básico y funcionalidad de registro y login. La aplicación permite a los usuarios registrarse, iniciar sesión y acceder a su perfil. Además, incluye una sección de administración para gestionar productos y visualizar métricas del casino.
+
 **Tecnologías Utilizadas:** Node.js, Express, Handlebars, SQLite3, bcrypt, express-session.
 
 ---
@@ -59,6 +60,7 @@ src/
 ```
 
 **Descripción del Proyecto:** Versión mejorada de la interfaz utilizando HTML y JavaScript puro para una experiencia más dinámica. Esta etapa separa claramente la lógica del cliente en archivos JavaScript modulares, y permite la comunicación con una API backend mediante fetch. Se integran funcionalidades como login, registro, carrito de compras, administración y edición de productos, así como visualización de detalles y perfiles.
+
 **Tecnologías Utilizadas:** HTML5, JavaScript (ES6), Fetch API, CSS3, LocalStorage, diseño modular en el cliente.
 
 ---
@@ -92,7 +94,8 @@ package.json
 package-lock.json
 ```
 
-**Descripción del Proyecto:** Implementación de una API RESTful completa con Express y SQLite3, que permite la gestión de usuarios, productos y compras. La API incluye autenticación JWT, manejo de roles y permisos, y un sistema de carrito de compras. Se implementa un sistema de administración para gestionar productos y visualizar métricas del casino. La comunicación entre el cliente y el servidor se realiza mediante peticiones HTTP.
+**Descripción del Proyecto:** Implementación de una API RESTful completa con Express y SQLite3, que permite la gestión de usuarios, productos y compras. La API incluye autenticación JWT, manejo de roles y permisos, y un sistema de carrito de compras. Se implementa un sistema de administración para gestionar productos y visualizar métricas del casino. La comunicación entre el cliente y el servidor se realiza mediante peticiones HTTP. 
+
 **Tecnologías Utilizadas:** Node.js, Express, SQLite3, JWT, bcrypt, cors, dotenv, Swagger para documentación de la API.
 
 ---
