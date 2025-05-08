@@ -1,0 +1,59 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<title>
+			Perfil de Usuario
+		</title>
+	</head>
+
+	<body class='bg-light'>
+		<!-- Contenedor principal -->
+		<div class='container my-5'>
+			<div class='row justify-content-center'>
+				<div class='col-md-8 col-lg-6'>
+					<div class='card shadow-lg'>
+						<div class='card-body p-5 text-center'>
+							<!-- Imagen del usuario -->
+							<h2 class='text-primary mb-4'>
+								Perfil de Usuario
+							</h2>
+							<img
+								src='https://i.postimg.cc/FFLqyvqW/default-profile.jpg'
+								alt='Imagen de Usuario'
+								class='img-fluid rounded-circle mb-4'
+								style='width: 150px; height: 150px; object-fit: cover;'
+							/>
+
+							<!-- Información del usuario -->
+							<p>
+								<strong>
+									Nombre:
+								</strong>
+								{{user.name}}
+							</p>
+							<p>
+								<strong>
+									Correo:
+								</strong>
+								{{user.email}}
+							</p>
+							<p>
+								<strong>
+									Fecha de Nacimiento:
+								</strong>
+								{{user.birth_date}}
+							</p>
+							<p>
+								<strong>
+									Fecha de Creación de la cuenta:
+								</strong>
+								{{user.created_at}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

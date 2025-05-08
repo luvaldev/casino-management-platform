@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalles del Producto</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Inside Casino</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul id="nav-items" class="navbar-nav ms-auto">
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h1 id="product-name"></h1>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <img id="product-image" src="" alt="Imagen del producto" class="img-fluid">
+      </div>
+      <div class="col-md-6">
+        <p><strong>Precio:</strong> $<span id="product-price"></span></p>
+        <p><strong>Stock:</strong> <span id="product-stock"></span></p>
+        <p><strong>Descripción:</strong> <span id="product-description"></span></p>
+        <a href="index.html" class="btn btn-primary mt-3">Volver a la lista de productos</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/productid.js"></script>
+  <script src="js/navbar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,999 @@
+openapi: 3.0.3
+info:
+  title: Swagger Collabor API - OpenAPI 3.0
+  description: Documentación de la API de productos para entrega 3
+  version: 1.0.0
+tags:
+  - name: Auth
+    description: Endpoints para autenticación
+  - name: Products
+    description: Endpoints para productos
+  - name: Admin
+    description: Endpoints para administradores
+  - name: Shopping Cart
+    description: Endpoints para carrito de compras
+  - name: Purchase
+    description: Endpoints para compras
+  - name: User
+    description: Endpoints para usuarios
+
+paths:
+  /api/login:
+    post:
+      summary: Inicio de sesión de usuario
+      description: Autentica al usuario y devuelve un token de acceso en una cookie
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'usuario@correo.com'
+                password:
+                  type: string
+                  example: 'tu_contraseña_segura'
+      responses:
+        200:
+          description: Inicio de sesión exitoso
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+              description: Cookie de autenticación
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Inicio de sesión exitoso.'
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+                  location:
+                    type: string
+                    example: '/'
+        400:
+          description: Faltan campos requeridos o email no válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Email y contraseña son requeridos.'
+        401:
+          description: Credenciales incorrectas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Usuario o contraseña incorrectos.'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/signup:
+    post:
+      summary: Registro de nuevo usuario
+      description: Registra un nuevo usuario y devuelve un token de acceso en una cookie
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Nombre del Usuario'
+                birth_date:
+                  type: string
+                  format: date
+                  example: '1990-01-01'
+                email:
+                  type: string
+                  example: 'usuario@correo.com'
+                password:
+                  type: string
+                  example: 'tu_contraseña_segura'
+      responses:
+        201:
+          description: Usuario creado con éxito
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+              description: Cookie de autenticación
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Usuario creado con éxito.'
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9;'
+        400:
+          description: Campos requeridos faltantes o email no válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Todos los campos son requeridos.'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/logout:
+    get:
+      summary: Cerrar sesión de usuario
+      description: Cierra la sesión del usuario y elimina la cookie de autenticación
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Sesión cerrada exitosamente
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: 'token=; Max-Age=0; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;'
+              description: Cookie de autenticación eliminada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Sesión cerrada exitosamente.'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      description: Retorna una lista de todos los productos disponibles en la base de datos.
+      tags:
+        - Products
+      responses:
+        200:
+          description: Lista de productos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Dados'
+                        stock:
+                          type: integer
+                          example: 10
+                        price:
+                          type: integer
+                          example: 9000
+                        image:
+                          type: string
+                          example: 'https://i.postimg.cc/ydRZDM23/dados.jpg'
+                        description:
+                          type: string
+                          example: 'Dados de 6 caras'
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: '2024-10-21T10:34:23Z'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/products/{id}:
+    get:
+      summary: Obtener un producto por ID
+      description: Retorna los detalles de un producto específico basado en su ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID del producto a obtener
+      responses:
+        200:
+          description: Producto encontrado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  product:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Dados'
+                      stock:
+                        type: integer
+                        example: 10
+                      price:
+                        type: integer
+                        example: 9000
+                      image:
+                        type: string
+                        example: 'https://i.postimg.cc/ydRZDM23/dados.jpg'
+                      description:
+                        type: string
+                        example: 'Dados de 6 caras'
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2024-10-21T10:34:23Z'
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Producto no encontrado.'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/admin/totalEarned:
+    get:
+      summary: Obtener el total de dinero ganado
+      security:
+        - cookieAuth: []
+      tags:
+        - Admin
+      responses:
+        200:
+          description: Total de dinero ganado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  totalEarned:
+                    type: number
+                    example: 10000
+        403:
+          description: Acceso denegado. Solo los administradores pueden acceder a este recurso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Acceso denegado. Solo los administradores pueden acceder a este recurso.'
+        500:
+          description: Error en el servidor. Por favor, intenta de nuevo.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/admin/products:
+    post:
+      summary: Crear un nuevo producto
+      security:
+        - cookieAuth: []
+      tags:
+        - Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Nuevo Producto'
+                  description: 'Nombre del nuevo producto'
+                stock:
+                  type: integer
+                  example: 20
+                  description: 'Cantidad en stock'
+                price:
+                  type: integer
+                  example: 20000
+                  description: 'Precio del producto'
+                image:
+                  type: string
+                  example: 'https://example.com/image.jpg'
+                  description: 'URL de la imagen del producto'
+                description:
+                  type: string
+                  example: 'Descripción del producto'
+                  description: 'Descripción detallada del producto'
+      responses:
+        200:
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Producto creado exitosamente.'
+                  product:
+                    id:
+                      type: integer
+                      example: 1
+        400:
+          description: Error de validación
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error de validación.'
+        500:
+          description: Error en el servidor. Por favor, intenta de nuevo.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/admin/products/{id}:
+    post:
+      summary: Actualizar un producto
+      security:
+        - cookieAuth: []
+      tags:
+        - Admin
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID del producto a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Producto Actualizado'
+                  description: 'Nombre actualizado del producto'
+                stock:
+                  type: integer
+                  example: 20
+                  description: 'Cantidad actualizada en stock'
+                price:
+                  type: integer
+                  example: 20000
+                  description: 'Precio actualizado del producto'
+                image:
+                  type: string
+                  example: 'https://example.com/new-image.jpg'
+                  description: 'URL de la imagen actualizada del producto'
+                description:
+                  type: string
+                  example: 'Nueva descripción del producto'
+                  description: 'Descripción detallada del producto actualizado'
+      responses:
+        200:
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Producto actualizado exitosamente.'
+                  product:
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Producto Actualizado'
+                      stock:
+                        type: integer
+                        example: 20
+                      price:
+                        type: integer
+                        example: 20000
+                      image:
+                        type: string
+                        example: 'https://example.com/new-image.jpg'
+                      description:
+                        type: string
+                        example: 'Nueva descripción del producto'
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2024-10-21T10:34:23Z'
+
+        400:
+          description: Error de validación (nombre requerido)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error de validación.'
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Producto no encontrado.'
+        500:
+          description: Error en el servidor. Por favor, intenta de nuevo.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+    delete:
+      summary: Eliminar un producto
+      security:
+        - cookieAuth: []
+      tags:
+        - Admin
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID del producto a eliminar
+      responses:
+        200:
+          description: Producto eliminado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Producto eliminado exitosamente.'
+        404:
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Producto no encontrado.'
+        500:
+          description: Error en el servidor. Por favor, intenta de nuevo.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/shoppingcart:
+    get:
+      summary: Obtener el carrito de compras del usuario
+      description: Devuelve los productos en el carrito de compras del usuario autenticado junto con el subtotal, total con impuestos, y el total de artículos.
+      security:
+        - cookieAuth: []
+      tags:
+        - Shopping Cart
+      responses:
+        200:
+          description: Carrito de compras obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  subtotal:
+                    type: number
+                    example: 15000
+                  total:
+                    type: number
+                    example: 17850
+                  totalItems:
+                    type: integer
+                    example: 3
+                  cart:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: 'Producto A'
+                        price:
+                          type: integer
+                          example: 5000
+                        quantity:
+                          type: integer
+                          example: 2
+        404:
+          description: Carrito vacío o usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Carrito de compras vacío.'
+        500:
+          description: Error del servidor
+
+  /api/shoppingcart/add/product/{productId}/quantity/{quantity}:
+    post:
+      summary: Agregar producto al carrito de compras
+      description: Añade un producto específico al carrito de compras del usuario autenticado. Verifica si hay suficiente stock antes de agregarlo.
+      security:
+        - cookieAuth: []
+      tags:
+        - Shopping Cart
+      parameters:
+        - in: query
+          name: productId
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID del producto a añadir al carrito
+        - in: query
+          name: quantity
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: Cantidad del producto a añadir
+      responses:
+        200:
+          description: Producto añadido al carrito exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Producto añadido al carrito.'
+        400:
+          description: Error de validación o stock insuficiente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Stock insuficiente.'
+        404:
+          description: Usuario o producto no encontrado
+        500:
+          description: Error del servidor
+
+  /api/shoppingcart/remove/product/{productId}:
+    delete:
+      summary: Reducir o eliminar un producto del carrito de compras
+      description: Reduce la cantidad de un producto en el carrito de compras del usuario autenticado. Si la cantidad llega a 0, el producto se elimina del carrito.
+      security:
+        - cookieAuth: []
+      tags:
+        - Shopping Cart
+      parameters:
+        - in: query
+          name: productId
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID del producto a reducir o eliminar
+      responses:
+        200:
+          description: Producto actualizado o eliminado del carrito exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Producto eliminado del carrito porque la cantidad llegó a 0.'
+        404:
+          description: Producto no encontrado en el carrito o usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Producto no encontrado en el carrito.'
+        500:
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/purchase:
+    post:
+      summary: Crear una compra
+      description: Realiza una compra con los productos en el carrito del usuario autenticado, calcula el subtotal, el impuesto y el total. Actualiza los fondos del usuario y vacía el carrito si la compra es exitosa.
+      security:
+        - cookieAuth: []
+      tags:
+        - Purchase
+      responses:
+        201:
+          description: Compra realizada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Compra realizada con éxito.'
+        400:
+          description: Fondos insuficientes o carrito vacío
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Fondos insuficientes.'
+        404:
+          description: Usuario no encontrado o carrito vacío
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Usuario no encontrado.'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+  /api/profile:
+    get:
+      summary: Obtener perfil de usuario
+      description: Devuelve la información del perfil del usuario autenticado junto con los productos en su carrito de compras y sus cantidades.
+      security:
+        - cookieAuth: []
+      tags:
+        - User
+      responses:
+        200:
+          description: Perfil del usuario obtenido exitosamente junto con el carrito de compras
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+                  profile:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'Juan Pérez'
+                      birth_date:
+                        type: string
+                        format: date
+                        example: '1990-05-15'
+                      email:
+                        type: string
+                        example: 'juan.perez@example.com'
+                      money:
+                        type: integer
+                        example: 50000
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: '2024-10-21T10:34:23Z'
+                      role:
+                        type: string
+                        example: 'user'
+                      cart:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: 'Producto A'
+                            price:
+                              type: integer
+                              example: 15000
+                            image:
+                              type: string
+                              example: 'https://example.com/image.jpg'
+                            description:
+                              type: string
+                              example: 'Descripción del producto'
+                            quantity:
+                              type: integer
+                              example: 2
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Usuario no encontrado.'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: 'Error en el servidor. Por favor, intenta de nuevo.'
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+      description: Autenticación mediante cookie con token de sesión
+
+security:
+  - cookieAuth: []

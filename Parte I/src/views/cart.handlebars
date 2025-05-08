@@ -1,0 +1,171 @@
+<html lang='es'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<title>
+			Inside Casino - Carrito de Compras
+		</title>
+	</head>
+
+	<body>
+		<section class='h-100'>
+			<div class='container py-5 h-100'>
+				<div class='row d-flex justify-content-center align-items-center h-100'>
+					<div class='col col-md-8'>
+						<div class='card'>
+							<div class='card-body p-4'>
+								<div class='row'>
+									<div class='mb-3'>
+										<h5 class='mb-3'>
+											<a href='/' class='text-body'>
+												🛒 Continuar comprando
+											</a>
+										</h5>
+										<hr />
+
+										<div class='d-flex justify-content-between align-items-center mb-3'>
+											<p>
+												Carrito de compras
+											</p>
+											<p>
+												Tienes
+												<strong>
+													{{productsCount}}
+												</strong>
+												items en tu carrito
+											</p>
+										</div>
+
+										{{#if products}}
+											{{#each products}}
+												<div class='card mb-3'>
+													<div class='card-body'>
+														<div class='d-flex justify-content-between'>
+															<div class='d-flex flex-row align-items-center'>
+																<div>
+																	<img
+																		src='{{this.image}}'
+																		class='img-fluid rounded-3'
+																		alt='Shopping item'
+																		style='width: 65px;'
+																	/>
+																</div>
+																<div class='ms-3'>
+																	<h5>
+																		{{this.name}}
+																	</h5>
+																	<p class='small mb-0'>
+																		{{this.description}}
+																	</p>
+																</div>
+															</div>
+															<div class='d-flex flex-row align-items-center'>
+																<div style='width: 80px;'>
+																	<h5 class='fw-normal mb-0'>
+																		{{this.quantity}}
+																	</h5>
+																</div>
+																<div style='width: 100px;'>
+																	<h5 class='mb-0'>
+																		{{this.priceFormatted}}
+																	</h5>
+																</div>
+
+																<form action='/remove-from-cart' method='post' class='mb-0'>
+																	<input type='hidden' name='product_id' value='{{this.id}}' />
+																	<button type='submit' class='btn btn-danger'>
+																		Quitar
+																	</button>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+											{{/each}}
+										{{else}}
+											<div class='alert alert-warning' role='alert'>
+												Tu carrito está vacío
+											</div>
+										{{/if}}
+									</div>
+
+									<div class="mb-3">
+										{{#if error}}
+											<div class='alert alert-danger' role='alert'>
+												{{error}}
+											</div>
+										{{/if}}
+									</div>
+
+									<div>
+										<div class='card bg-dark text-white rounded-3'>
+											<form action="/pay" method="post" class="mb-1">
+												<div class='card-body'>
+												<div class='d-flex justify-content-between align-items-center'>
+													<h5 class='mb-0'>
+														Detalle de la compra
+													</h5>
+													<img
+														src='https://i.postimg.cc/FFLqyvqW/default-profile.jpg'
+														class='img-fluid rounded-3'
+														style='width: 45px;'
+														alt='Avatar'
+													/>
+												</div>
+
+												<hr class='my-4' />
+
+												<div class='d-flex justify-content-between'>
+													<p class='mb-2'>
+														Subtotal
+													</p>
+													<p class='mb-2'>
+														{{subtotal}}
+													</p>
+												</div>
+
+												<div class='d-flex justify-content-between'>
+													<p class='mb-2'>
+														IVA
+													</p>
+													<p class='mb-2'>
+														{{tax}}
+													</p>
+												</div>
+
+												<div class='d-flex justify-content-between mb-4'>
+													<p class='mb-2'>
+														Total(Incl. impuestos)
+													</p>
+													<p class='mb-2'>
+														{{total}}
+													</p>
+												</div>
+
+												<button 
+													type='submit'
+													class='btn btn-outline-light btn-lg w-100' 
+													{{#if products}}{{else}}disabled{{/if}}
+												>
+													<div class='d-flex justify-content-between w-100'>
+														<span>
+															Pagar
+														</span>
+														<span>
+															{{total}}
+														</span>
+													</div>
+												</button>
+											</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

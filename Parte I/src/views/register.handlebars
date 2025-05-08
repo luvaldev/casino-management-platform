@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inside Casino - Registro</title>
+</head>
+
+<body>
+
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow p-4">
+          <h3 class="text-center mb-4">Registro</h3>
+          <form id="registration-form" action="/register" method="POST" class="mb-0">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Escribe tu nombre" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="birth_date" class="form-label">Fecha de Nacimiento</label>
+              <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo Electrónico</label>
+              <input class="form-control" id="email" name="email" placeholder="tucorreo@gmail.com" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirm_password" class="form-label">Repite la Contraseña</label>
+              <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary">Registrarse</button>
+            </div>
+
+            {{#if error}}
+              <div class="alert alert-danger container mb-0">{{error}}</div>
+            {{/if}}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  </div>
+
+  <script>
+    document.getElementById('registration-form').addEventListener('submit', function (event) {
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm_password').value;
+
+      if (password !== confirmPassword) {
+        event.preventDefault(); // Evita el envío del formulario
+        alert('Las contraseñas no coinciden.'); // Mensaje de alerta
+      }
+
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<html lang='es'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<title>
+			Inside Casino Administrador
+		</title>
+
+    <style>
+    /* Fuente personalizada desde Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap');
+
+    body {
+      font-family: 'SUSE', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      /* Mantener el margen en 0 para evitar problemas de espacio */
+      padding: 0;
+      /* Mantener el padding en 0 */
+    }
+
+    .content-wrapper {
+      display: flex;
+      /* Flexbox para centrar contenido */
+      flex-direction: column;
+      /* Colocar elementos en columna */
+      align-items: center;
+      /* Centrar elementos horizontalmente */
+      justify-content: center;
+      /* Centrar elementos verticalmente */
+      min-height: 100vh;
+      /* Asegurarse de que el contenedor ocupe toda la altura de la ventana */
+      width: 100%;
+      max-width: 800px;
+      padding: 20px;
+      /* Padding para el contenedor */
+      margin: auto;
+      /* Centrar el contenedor */
+    }
+  </style>
+	</head>
+
+  
+
+	<body>
+		<!-- Contenedor editar producto -->
+
+		{{#if (eq user.role 'admin')}}
+			<div class='content-wrapper'>
+				<div class='container'>
+					<h1 class='text-center'>
+						Editar producto
+					</h1>
+					<form>
+						{{#if product}}
+							<div class='mb-3'>
+								<label for='productName' class='form-label'>
+									Nombre del Producto
+								</label>
+								<input type='text' class='form-control' id='productName' value="{{product.name}}" required />
+							</div>
+							<div class='mb-3'>
+								<label for='productPrice' class='form-label'>
+									Precio del Producto
+								</label>
+								<input type='number' class='form-control' id='productPrice' value={{product.price}} required />
+							</div>
+							<div class='mb-3'>
+								<label for='productDescription' class='form-label'>
+									Descripción del Producto
+								</label>
+								<textarea class='form-control' id='productDescription'  required>
+{{product.description}}
+                </textarea>
+							</div>
+							<div class='mb-3'>
+								<label for='productImage' class='form-label'>
+									URL de la Imagen del Producto
+								</label>
+								<input type='url' class='form-control' id='productImage' value={{product.image}} required />
+							</div>
+							<div class='mb-3'>
+								<label for='productImage' class='form-label'>
+									Stock
+								</label>
+								<input type='url' class='form-control' id='productImage' value={{product.stock}} required />
+							</div>
+						{{/if}}
+						<button type='submit' class='btn btn-primary'>
+							Editar Producto
+						</button>
+					</form>
+				</div>
+			</div>
+		{{else}}
+			<!-- Mostrar mensaje error -->
+			<div class='alert alert-danger text-center' role='alert'>
+				No tienes permisos para acceder a esta página.
+			</div>
+		{{/if}}
+	</body>
+</html>

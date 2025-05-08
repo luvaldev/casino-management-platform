@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inside Casino - Contacto</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    /* Fuente personalizada desde Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap');
+
+    body {
+      font-family: 'SUSE', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .contact-section {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 800px;
+      width: 100%;
+      margin: 20px auto;
+    }
+
+    .contact-section h1 {
+      margin-bottom: 20px;
+    }
+
+    .contact-section p {
+      margin-bottom: 20px;
+    }
+
+    .contact-section .form-label {
+      font-weight: bold;
+    }
+
+    .contact-section .btn-primary {
+      background-color: #333;
+      border-color: #333;
+    }
+
+    .contact-section .btn-primary:hover {
+      background-color: #555;
+      border-color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SECCIÓN DE CONTACTO -->
+  <div class="content-wrapper">
+    <div class="contact-section">
+      <h1>Contacto</h1>
+      <p>¿Tienes alguna pregunta o comentario? ¡Nos encantaría escucharte! Por favor, completa el formulario a
+        continuación y nos pondremos en contacto contigo a la brevedad.</p>
+      <form>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="name" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="name" placeholder="Tu nombre" required>
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" placeholder="Tu correo electrónico" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Mensaje</label>
+          <textarea class="form-control" id="message" rows="4" placeholder="Tu mensaje" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
